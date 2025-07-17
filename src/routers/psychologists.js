@@ -2,17 +2,21 @@ import { Router } from 'express';
 import {
   getPsychologistByIdController,
   getPsychologistsController,
+  postPsychologistController,
 } from '../controllers/psychologist.js';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import { isValidObjectId } from '../utils/isValidObjectId.js';
 
 const router = Router();
 
-router.get('/psychologists', getPsychologistsController);
+router.get('/psychologists', ctrlWrapper(getPsychologistsController));
 
-router.get('/psychologists/:id', getPsychologistByIdController);
+router.get(
+  '/psychologists/:id',
+  isValidObjectId('id'),
+  ctrlWrapper(getPsychologistByIdController),
+);
 
-router.post('/psychologists', async (req, res, next) => {
-  const psychologist = await postPsychologist();
-  res.status(201).json({ data: newDoc });
-});
+router.post('/psychologists', ctrlWrapper(postPsychologistController));
 
 export default router;

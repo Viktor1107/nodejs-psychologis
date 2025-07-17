@@ -1,10 +1,11 @@
 import { Types } from 'mongoose';
+import createHttpError from 'http-errors';
 import {
   getAllPsychologists,
   getPsychologistById,
 } from '../services/psychologist.js';
 
-export const getPsychologistsController = async (req, res) => {
+export const getPsychologistsController = async (req, res, next) => {
   const psychologists = await getAllPsychologists();
 
   res.json({
@@ -14,21 +15,18 @@ export const getPsychologistsController = async (req, res) => {
   });
 };
 
-export const getPsychologistByIdController = async (req, res) => {
+export const getPsychologistByIdController = async (req, res, next) => {
   const { id } = req.params;
+
   const psychologist = await getPsychologistById(id);
 
-  if (!Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ message: 'Invalid psychologist ID format' });
-  }
-
   if (!psychologist) {
-    return res.status(404).json({
-      message: 'Psychologist not found',
-    });
+    throw createHttpError(404, 'Psychologist not found');
   }
 
   res.status(200).json({
     data: psychologist,
   });
 };
+
+export const postPsychologistController = async (req, res, next) => {};
