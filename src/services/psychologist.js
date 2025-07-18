@@ -10,8 +10,8 @@ export const getPsychologistById = async (id) => {
   return psychologist;
 };
 
-export const postPsychologist = async () => {
-  const psychologist = await psychologistCollection.create();
+export const postPsychologist = async (payload) => {
+  const psychologist = await psychologistCollection.create(payload);
   return psychologist;
 };
 
