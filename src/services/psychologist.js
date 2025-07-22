@@ -22,5 +22,5 @@ export const patchPsychologist = async (id) => {
 
 export const deletePsychologist = async (id) => {
   const psychologist = await psychologistCollection.findByIdAndDelete(id);
-  return;
+  return psychologist;
 };

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  deletePsychologistController,
   getPsychologistByIdController,
   getPsychologistsController,
   postPsychologistController,
@@ -18,5 +19,11 @@ router.get(
 );
 
 router.post('/psychologists', ctrlWrapper(postPsychologistController));
+
+router.delete(
+  '/psychologists/:id',
+  isValidObjectId('id'),
+  ctrlWrapper(deletePsychologistController),
+);
 
 export default router;

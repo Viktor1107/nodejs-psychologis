@@ -1,6 +1,6 @@
-import { Types } from 'mongoose';
 import createHttpError from 'http-errors';
 import {
+  deletePsychologist,
   getAllPsychologists,
   getPsychologistById,
   postPsychologist,
@@ -37,5 +37,20 @@ export const postPsychologistController = async (req, res) => {
     status: 201,
     message: `Successfully created a psychologist!`,
     data: psychologist,
+  });
+};
+
+export const deletePsychologistController = async (req, res) => {
+  const { id } = req.params;
+
+  const psychologist = await deletePsychologist(id);
+
+  if (!psychologist) {
+    throw createHttpError(404, 'Psychologist not found');
+  }
+
+  res.status(204).send({
+    status: 204,
+    message: `Successfully delete a psychologist!`,
   });
 };
