@@ -15,8 +15,12 @@ export const postPsychologist = async (payload) => {
   return psychologist;
 };
 
-export const patchPsychologist = async (id) => {
-  const psychologist = await psychologistCollection.findByIdAndUpdate(id);
+export const patchPsychologist = async (id, payload) => {
+  const psychologist = await psychologistCollection.findByIdAndUpdate(
+    id,
+    payload,
+    { new: true, runValidators: true },
+  );
   return psychologist;
 };
 

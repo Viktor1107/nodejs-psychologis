@@ -3,6 +3,7 @@ import {
   deletePsychologistController,
   getPsychologistByIdController,
   getPsychologistsController,
+  patchPsychologistController,
   postPsychologistController,
 } from '../controllers/psychologist.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
@@ -19,6 +20,12 @@ router.get(
 );
 
 router.post('/psychologists', ctrlWrapper(postPsychologistController));
+
+router.patch(
+  '/psychologists/:id',
+  isValidObjectId('id'),
+  ctrlWrapper(patchPsychologistController),
+);
 
 router.delete(
   '/psychologists/:id',

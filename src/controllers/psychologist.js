@@ -3,6 +3,7 @@ import {
   deletePsychologist,
   getAllPsychologists,
   getPsychologistById,
+  patchPsychologist,
   postPsychologist,
 } from '../services/psychologist.js';
 
@@ -22,7 +23,8 @@ export const getPsychologistByIdController = async (req, res, next) => {
   const psychologist = await getPsychologistById(id);
 
   if (!psychologist) {
-    throw createHttpError(404, 'Psychologist not found');
+    next(createHttpError(404, 'Psychologist not found'));
+    return;
   }
 
   res.status(200).json({
@@ -40,16 +42,34 @@ export const postPsychologistController = async (req, res) => {
   });
 };
 
-export const deletePsychologistController = async (req, res) => {
+export const patchPsychologistController = async (req, res, next) => {
+  const { id } = req.params;
+
+  const psychologist = await patchPsychologist(id, req.body);
+
+  if (!psychologist) {
+    next(createHttpError(404, 'Psychologist not found'));
+    return;
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: `Data updated successfully!`,
+    data: psychologist,
+  });
+};
+
+export const deletePsychologistController = async (req, res, next) => {
   const { id } = req.params;
 
   const psychologist = await deletePsychologist(id);
 
   if (!psychologist) {
-    throw createHttpError(404, 'Psychologist not found');
+    next(createHttpError(404, 'Psychologist not found'));
+    return;
   }
 
-  res.status(204).send({
+  res.status(204).json({
     status: 204,
     message: `Successfully delete a psychologist!`,
   });
