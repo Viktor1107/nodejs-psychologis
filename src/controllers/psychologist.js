@@ -5,7 +5,7 @@ import {
   getPsychologistById,
   patchPsychologist,
   postPsychologist,
-} from '../services/psychologist.js';
+} from '../services/psychologists.js';
 
 export const getPsychologistsController = async (req, res, next) => {
   const psychologists = await getAllPsychologists();

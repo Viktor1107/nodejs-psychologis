@@ -8,6 +8,8 @@ import {
 } from '../controllers/psychologist.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { isValidObjectId } from '../utils/isValidObjectId.js';
+import { validateBody } from '../utils/validateBody.js';
+import { createPsychologistSchema } from '../validation/psychologists.js';
 
 const router = Router();
 
@@ -19,7 +21,11 @@ router.get(
   ctrlWrapper(getPsychologistByIdController),
 );
 
-router.post('/psychologists', ctrlWrapper(postPsychologistController));
+router.post(
+  '/psychologists',
+  validateBody(createPsychologistSchema),
+  ctrlWrapper(postPsychologistController),
+);
 
 router.patch(
   '/psychologists/:id',
