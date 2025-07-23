@@ -7,8 +7,8 @@ import {
   postPsychologistController,
 } from '../controllers/psychologist.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-import { isValidObjectId } from '../utils/isValidObjectId.js';
-import { validateBody } from '../utils/validateBody.js';
+import { isValidObjectId } from '../middlewares/isValidObjectId.js';
+import { validateBody } from '../middlewares/validateBody.js';
 import { createPsychologistSchema } from '../validation/psychologists.js';
 
 const router = Router();
