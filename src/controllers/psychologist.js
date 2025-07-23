@@ -6,9 +6,11 @@ import {
   patchPsychologist,
   postPsychologist,
 } from '../services/psychologists.js';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 
 export const getPsychologistsController = async (req, res, next) => {
-  const psychologists = await getAllPsychologists();
+  const { page, perPage } = parsePaginationParams(req.query);
+  const psychologists = await getAllPsychologists({ page, perPage });
 
   res.json({
     status: 200,
