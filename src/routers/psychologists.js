@@ -9,7 +9,10 @@ import {
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { isValidObjectId } from '../middlewares/isValidObjectId.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import { createPsychologistSchema } from '../validation/psychologists.js';
+import {
+  createPsychologistSchema,
+  patchPsychologistSchema,
+} from '../validation/psychologists.js';
 
 const router = Router();
 
@@ -30,6 +33,7 @@ router.post(
 router.patch(
   '/psychologists/:id',
   isValidObjectId('id'),
+  validateBody(patchPsychologistSchema),
   ctrlWrapper(patchPsychologistController),
 );
 

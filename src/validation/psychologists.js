@@ -55,3 +55,49 @@ export const createPsychologistSchema = Joi.object({
     )
     .optional(),
 });
+
+export const patchPsychologistSchema = Joi.object({
+  name: Joi.string().trim().messages({
+    'string.empty': 'Name cannot be empty',
+  }),
+  avatar_url: Joi.string().uri().messages({
+    'string.uri': 'Avatar URL must be a valid URI',
+  }),
+  experience: Joi.string().messages({
+    'string.empty': 'Experience cannot be empty',
+  }),
+  price_per_hour: Joi.number().positive().messages({
+    'number.base': 'Price must be a number',
+    'number.positive': 'Price must be a positive number',
+  }),
+  rating: Joi.number().min(0).max(5).optional().messages({
+    'number.min': 'Rating must be at least 0',
+    'number.max': 'Rating cannot exceed 5',
+  }),
+  license: Joi.string().messages({
+    'string.empty': 'License cannot be empty',
+  }),
+  specialization: Joi.string().messages({
+    'string.empty': 'Specialization cannot be empty',
+  }),
+  initial_consultation: Joi.string().optional().allow('').messages({
+    'string.base': 'Initial consultation must be a string',
+  }),
+  about: Joi.string().messages({
+    'string.empty': 'About section cannot be empty',
+  }),
+  reviews: Joi.array()
+    .items(
+      Joi.object({
+        reviewer: Joi.string().messages({}),
+        rating: Joi.number().min(0).max(5).messages({
+          'number.min': 'Rating must be at least 0',
+          'number.max': 'Rating cannot exceed 5',
+        }),
+        comment: Joi.string().optional().allow('').messages({
+          'string.base': 'Comment must be a string',
+        }),
+      }),
+    )
+    .optional(),
+});
