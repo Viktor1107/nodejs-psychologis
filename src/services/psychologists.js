@@ -1,8 +1,28 @@
 import { psychologistCollection } from '../db/models/psychologists.js';
+import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-export const getAllPsychologists = async () => {
-  const psychologists = await psychologistCollection.find();
-  return psychologists;
+export const getAllPsychologists = async ({ page, perPage }) => {
+  const limit = perPage;
+  const skip = (page - 1) * perPage;
+
+  const psychologistQuery = psychologistCollection.find();
+  const psychologistCount = await psychologistCollection
+    .find()
+    .merge(psychologistQuery)
+    .countDocuments();
+
+  const psychologists = await psychologistQuery.skip(skip).limit(limit).exec();
+
+  const paginationData = calculatePaginationData(
+    psychologistCount,
+    perPage,
+    page,
+  );
+
+  return {
+    data: psychologists,
+    ...paginationData,
+  };
 };
 
 export const getPsychologistById = async (id) => {
