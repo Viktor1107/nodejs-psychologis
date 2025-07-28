@@ -13,12 +13,14 @@ export const getPsychologistsController = async (req, res, next) => {
   const { page, perPage } = parsePaginationParams(req.query);
 
   const { sortBy, sortOrder } = parseSortParams(req.query);
+  const { specialization } = req.query;
 
   const psychologists = await getAllPsychologists({
     page,
     perPage,
     sortBy,
     sortOrder,
+    specialization,
   });
 
   res.json({

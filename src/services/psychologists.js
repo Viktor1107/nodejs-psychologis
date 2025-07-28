@@ -1,19 +1,35 @@
 import { SORT_ORDER } from '../constants/index.js';
 import { psychologistCollection } from '../db/models/psychologists.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
+import { parseSpecialization } from '../utils/parseFilterParams.js';
 
 export const getAllPsychologists = async ({
   page,
   perPage,
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
+  specialization,
 }) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const psychologistQuery = psychologistCollection.find();
+  const specializationFilter = parseSpecialization(specialization);
+
+  const filter = {};
+
+  if (specialization) {
+    const specializationsArray = specialization
+      .split(',')
+      .map((word) => word.trim());
+
+    filter.$or = specializationsArray.map((word) => ({
+      specialization: { $regex: word, $options: 'i' },
+    }));
+  }
+
+  const psychologistQuery = psychologistCollection.find(filter);
   const psychologistCount = await psychologistCollection
-    .find()
+    .find(filter)
     .merge(psychologistQuery)
     .countDocuments();
 
