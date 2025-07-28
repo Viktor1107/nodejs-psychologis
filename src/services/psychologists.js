@@ -1,7 +1,13 @@
+import { SORT_ORDER } from '../constants/index.js';
 import { psychologistCollection } from '../db/models/psychologists.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-export const getAllPsychologists = async ({ page, perPage }) => {
+export const getAllPsychologists = async ({
+  page,
+  perPage,
+  sortOrder = SORT_ORDER.ASC,
+  sortBy = '_id',
+}) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
@@ -11,7 +17,11 @@ export const getAllPsychologists = async ({ page, perPage }) => {
     .merge(psychologistQuery)
     .countDocuments();
 
-  const psychologists = await psychologistQuery.skip(skip).limit(limit).exec();
+  const psychologists = await psychologistQuery
+    .skip(skip)
+    .limit(limit)
+    .sort({ [sortBy]: sortOrder })
+    .exec();
 
   const paginationData = calculatePaginationData(
     psychologistCount,

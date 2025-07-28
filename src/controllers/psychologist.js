@@ -7,10 +7,19 @@ import {
   postPsychologist,
 } from '../services/psychologists.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
 
 export const getPsychologistsController = async (req, res, next) => {
   const { page, perPage } = parsePaginationParams(req.query);
-  const psychologists = await getAllPsychologists({ page, perPage });
+
+  const { sortBy, sortOrder } = parseSortParams(req.query);
+
+  const psychologists = await getAllPsychologists({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+  });
 
   res.json({
     status: 200,
