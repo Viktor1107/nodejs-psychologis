@@ -16,31 +16,33 @@ import {
 
 const router = Router();
 
-router.get('/psychologists', ctrlWrapper(getPsychologistsController));
+const psychologistRouter = router;
+
+router.get('/', ctrlWrapper(getPsychologistsController));
 
 router.get(
-  '/psychologists/:id',
+  '/:id',
   isValidObjectId('id'),
   ctrlWrapper(getPsychologistByIdController),
 );
 
 router.post(
-  '/psychologists',
+  '/',
   validateBody(createPsychologistSchema),
   ctrlWrapper(postPsychologistController),
 );
 
 router.patch(
-  '/psychologists/:id',
+  '/:id',
   isValidObjectId('id'),
   validateBody(patchPsychologistSchema),
   ctrlWrapper(patchPsychologistController),
 );
 
 router.delete(
-  '/psychologists/:id',
+  '/:id',
   isValidObjectId('id'),
   ctrlWrapper(deletePsychologistController),
 );
 
-export default router;
+export default psychologistRouter;

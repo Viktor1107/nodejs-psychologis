@@ -2,10 +2,11 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import router from './routers/psychologists.js';
 import { getEnvVar } from './utils/getEnvVar.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+import authRouter from './routers/auth.js';
+import psychologistRouter from './routers/psychologists.js';
 
 dotenv.config();
 
@@ -41,7 +42,8 @@ export const startServer = () => {
     });
   });
 
-  app.use(router);
+  app.use('/auth', authRouter);
+  app.use('/psychologists', psychologistRouter);
 
   app.use(notFoundHandler);
 
