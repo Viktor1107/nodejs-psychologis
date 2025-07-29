@@ -17,8 +17,8 @@ export const getAllPsychologists = async ({
 
   const filter = {};
 
-  if (specialization) {
-    const specializationsArray = specialization
+  if (specializationFilter) {
+    const specializationsArray = specializationFilter
       .split(',')
       .map((word) => word.trim());
 
