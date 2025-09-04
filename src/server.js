@@ -8,6 +8,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import authRouter from './routers/auth.js';
 import psychologistRouter from './routers/psychologists.js';
 import cookieParser from 'cookie-parser';
+import favoritesRouter from './routers/favorites.js';
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ export const startServer = () => {
 
   app.use('/auth', authRouter);
   app.use('/psychologists', psychologistRouter);
+  app.use('/favorites', favoritesRouter);
 
   app.use(notFoundHandler);
 
