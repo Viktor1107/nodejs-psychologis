@@ -1,3 +1,4 @@
+import { psychologistCollection } from '../db/models/psychologists.js';
 import {
   addFavoritePsychologist,
   deleteFavoritePsychologist,
@@ -8,10 +9,14 @@ export const addFavoritePsychologistController = async (req, res) => {
   const { psychologistId } = req.params;
   const user = await addFavoritePsychologist(req.user._id, psychologistId);
 
+  const addedPsychologist = await psychologistCollection.findById(
+    psychologistId,
+  );
+
   res.json({
     status: 200,
     message: 'Psychologist added to favorites',
-    data: user.favorites,
+    data: addedPsychologist,
   });
 };
 
@@ -22,12 +27,12 @@ export const deleteFavoritePsychologistController = async (req, res) => {
   res.json({
     status: 200,
     message: 'Psychologist removed from favorites',
-    data: user.favorites,
   });
 };
 
 export const getFavoritePsychologistsController = async (req, res) => {
-  const user = await getFavoritePsychologists(req.user._id);
+  const userId = req.user._id;
+  const user = await getFavoritePsychologists(userId);
 
   res.json({
     status: 200,
