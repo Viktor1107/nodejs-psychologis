@@ -15,6 +15,7 @@ import {
 } from '../validation/psychologists.js';
 import { checkRoles } from '../middlewares/checkRoles.js';
 import { ROLES } from '../constants/index.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 
@@ -30,6 +31,7 @@ router.get(
 
 router.post(
   '/',
+  authenticate,
   checkRoles(ROLES.ADMIN),
   validateBody(createPsychologistSchema),
   ctrlWrapper(postPsychologistController),
@@ -38,6 +40,7 @@ router.post(
 router.patch(
   '/:id',
   isValidObjectId('id'),
+  authenticate,
   checkRoles(ROLES.ADMIN),
   validateBody(patchPsychologistSchema),
   ctrlWrapper(patchPsychologistController),
@@ -46,6 +49,7 @@ router.patch(
 router.delete(
   '/:id',
   isValidObjectId('id'),
+  authenticate,
   checkRoles(ROLES.ADMIN),
   ctrlWrapper(deletePsychologistController),
 );
