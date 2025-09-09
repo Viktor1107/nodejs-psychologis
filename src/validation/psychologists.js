@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { isValidObjectId } from 'mongoose';
 
 export const createPsychologistSchema = Joi.object({
   name: Joi.string().trim().required().messages({
@@ -54,6 +55,12 @@ export const createPsychologistSchema = Joi.object({
       }),
     )
     .optional(),
+  adminId: Joi.string().custom((value, helper) => {
+    if (value && !isValidObjectId(value)) {
+      return helper.message('Admin id should be a valid mongo id');
+    }
+    return true;
+  }),
 });
 
 export const patchPsychologistSchema = Joi.object({

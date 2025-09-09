@@ -59,6 +59,10 @@ const psychologistSchema = new Schema(
       required: true,
     },
     reviews: [reviewSchema],
+    adminId: {
+      type: Schema.Types.ObjectId,
+      ref: 'psychologist',
+    },
   },
   {
     timestamps: true,

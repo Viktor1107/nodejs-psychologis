@@ -13,6 +13,8 @@ import {
   createPsychologistSchema,
   patchPsychologistSchema,
 } from '../validation/psychologists.js';
+import { checkRoles } from '../middlewares/checkRoles.js';
+import { ROLES } from '../constants/index.js';
 
 const router = Router();
 
@@ -28,6 +30,7 @@ router.get(
 
 router.post(
   '/',
+  checkRoles(ROLES.ADMIN),
   validateBody(createPsychologistSchema),
   ctrlWrapper(postPsychologistController),
 );
@@ -35,6 +38,7 @@ router.post(
 router.patch(
   '/:id',
   isValidObjectId('id'),
+  checkRoles(ROLES.ADMIN),
   validateBody(patchPsychologistSchema),
   ctrlWrapper(patchPsychologistController),
 );
@@ -42,6 +46,7 @@ router.patch(
 router.delete(
   '/:id',
   isValidObjectId('id'),
+  checkRoles(ROLES.ADMIN),
   ctrlWrapper(deletePsychologistController),
 );
 
