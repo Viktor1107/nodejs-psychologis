@@ -8,6 +8,7 @@ import {
 } from '../validation/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
+  deleteAvatarController,
   loginUserController,
   logoutUserController,
   refreshUserSessionController,
@@ -50,10 +51,12 @@ router.post(
   ctrlWrapper(resetPasswordController),
 );
 
-router.patch(
+router.post(
   '/avatar',
   upload.single('avatar'),
   ctrlWrapper(uploadAvatarController),
 );
+
+router.delete('/avatar', ctrlWrapper(deleteAvatarController));
 
 export default authRouter;

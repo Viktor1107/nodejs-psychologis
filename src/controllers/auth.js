@@ -1,5 +1,6 @@
 import { ONE_DAY } from '../constants/index.js';
 import {
+  deleteUserAvatar,
   loginUser,
   logoutUser,
   refreshUsersSession,
@@ -103,5 +104,14 @@ export const uploadAvatarController = async (req, res) => {
     message: 'Avatar updated',
     status: 200,
     photo,
+  });
+};
+
+export const deleteAvatarController = async (req, res) => {
+  await deleteUserAvatar(req.user._id);
+
+  res.json({
+    message: 'Avatar deleted',
+    status: 200,
   });
 };

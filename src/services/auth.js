@@ -168,20 +168,45 @@ export const saveUserAvatar = async (userId, file) => {
     throw createHttpError(400, 'File not provided');
   }
 
-  const tempPath = file.path;
-
   const newFileName = `${userId}_${file.originalname}`;
   const newPath = path.join(UPLOAD_DIR, newFileName);
 
-  await fs.rename(tempPath, newPath);
+  await fs.rename(file.path, newPath);
 
   const avatarUrl = `/uploads/${newFileName}`;
 
+  const oldUser = await UsersCollection.findById(userId);
+
+  if (oldUser?.photo?.filename) {
+    const oldFilePath = path.join(UPLOAD_DIR, oldUser.photo.filename);
+    await fs.unlink(oldFilePath).catch(() => {});
+  }
+
   const user = await UsersCollection.findByIdAndUpdate(
     userId,
-    { photo: { url: avatarUrl } },
+    { photo: { url: avatarUrl, filename: newFileName } },
     { new: true },
   );
 
   return user.photo;
+};
+
+export const deleteUserAvatar = async (userId) => {
+  const user = await UsersCollection.findById(userId);
+
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  if (!user.photo?.filename) {
+    throw createHttpError(400, 'No avatar to delete');
+  }
+
+  const filePath = path.join(UPLOAD_DIR, user.photo.filename);
+  await fs.unlink(filePath).catch(() => {});
+
+  user.photo = undefined;
+  await user.save();
+
+  return { message: 'Avatar deleted' };
 };
