@@ -14,7 +14,9 @@ import {
   registerUserController,
   requestResetEmailController,
   resetPasswordController,
+  uploadAvatarController,
 } from '../controllers/auth.js';
+import { upload } from '../middlewares/multer.js';
 
 const router = Router();
 
@@ -46,6 +48,12 @@ router.post(
   '/reset-password',
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordController),
+);
+
+router.patch(
+  '/avatar',
+  upload.single('avatar'),
+  ctrlWrapper(uploadAvatarController),
 );
 
 export default authRouter;

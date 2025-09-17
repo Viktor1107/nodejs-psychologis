@@ -8,6 +8,7 @@ import {
   ONE_DAY,
   SMTP,
   TEMPLATES_DIR,
+  UPLOAD_DIR,
 } from '../constants/index.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
 import { sendEmail } from '../utils/sendMail.js';
@@ -160,4 +161,27 @@ export const resetPassword = async (payload) => {
     { _id: user._id },
     { password: encryptedPassword },
   );
+};
+
+export const saveUserAvatar = async (userId, file) => {
+  if (!file) {
+    throw createHttpError(400, 'File not provided');
+  }
+
+  const tempPath = file.path;
+
+  const newFileName = `${userId}_${file.originalname}`;
+  const newPath = path.join(UPLOAD_DIR, newFileName);
+
+  await fs.rename(tempPath, newPath);
+
+  const avatarUrl = `/uploads/${newFileName}`;
+
+  const user = await UsersCollection.findByIdAndUpdate(
+    userId,
+    { photo: { url: avatarUrl } },
+    { new: true },
+  );
+
+  return user.photo;
 };

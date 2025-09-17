@@ -6,6 +6,7 @@ import {
   registerUser,
   requestResetToken,
   resetPassword,
+  saveUserAvatar,
 } from '../services/auth.js';
 
 export const registerUserController = async (req, res) => {
@@ -93,5 +94,14 @@ export const resetPasswordController = async (req, res) => {
     message: 'Password was successfully reset!',
     status: 200,
     data: {},
+  });
+};
+export const uploadAvatarController = async (req, res) => {
+  const photo = await saveUserAvatar(req.user._id, req.file);
+
+  res.json({
+    message: 'Avatar updated',
+    status: 200,
+    photo,
   });
 };

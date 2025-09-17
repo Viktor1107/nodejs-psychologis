@@ -12,6 +12,10 @@ const usersSchema = new Schema(
       enum: [ROLES.ADMIN, ROLES.USER],
       default: ROLES.USER,
     },
+    photo: {
+      url: { type: String, default: null },
+      filename: { type: String, default: null },
+    },
   },
   { timestamps: true, versionKey: false },
 );
