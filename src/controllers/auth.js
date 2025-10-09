@@ -100,6 +100,9 @@ export const resetPasswordController = async (req, res) => {
 export const uploadAvatarController = async (req, res) => {
   const photo = await saveUserAvatar(req.user._id, req.file);
 
+  console.log('File:', req.file);
+  console.log('User:', req.user);
+
   res.json({
     message: 'Avatar updated',
     status: 200,

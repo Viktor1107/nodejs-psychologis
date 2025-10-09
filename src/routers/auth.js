@@ -18,6 +18,8 @@ import {
   uploadAvatarController,
 } from '../controllers/auth.js';
 import { upload } from '../middlewares/multer.js';
+import { authenticate } from '../middlewares/authenticate.js';
+import { UPLOAD_DIR } from '../constants/index.js';
 
 const router = Router();
 
@@ -53,10 +55,11 @@ router.post(
 
 router.post(
   '/avatar',
+  authenticate,
   upload.single('avatar'),
   ctrlWrapper(uploadAvatarController),
 );
 
-router.delete('/avatar', ctrlWrapper(deleteAvatarController));
+router.delete('/avatar', authenticate, ctrlWrapper(deleteAvatarController));
 
 export default authRouter;

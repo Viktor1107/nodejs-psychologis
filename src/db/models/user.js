@@ -13,8 +13,11 @@ const usersSchema = new Schema(
       default: ROLES.USER,
     },
     photo: {
-      url: { type: String, default: null },
-      filename: { type: String, default: null },
+      type: {
+        url: { type: String, default: null },
+        filename: { type: String, default: null },
+      },
+      default: {},
     },
   },
   { timestamps: true, versionKey: false },
