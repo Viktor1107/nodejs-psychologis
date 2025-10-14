@@ -9,6 +9,7 @@ import authRouter from './routers/auth.js';
 import psychologistRouter from './routers/psychologists.js';
 import cookieParser from 'cookie-parser';
 import favoritesRouter from './routers/favorites.js';
+import { UPLOAD_DIR } from './constants/index.js';
 
 dotenv.config();
 
@@ -53,6 +54,8 @@ export const startServer = () => {
   app.use(notFoundHandler);
 
   app.use(errorHandler);
+
+  app.use('/uploads', express.static(UPLOAD_DIR));
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
