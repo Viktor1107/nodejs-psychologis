@@ -1,0 +1,27 @@
+post:
+  tags:
+    - Auth
+  summary:
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../../components/schemas/auth/resetEmail.yaml
+  responses:
+    '200':
+      description:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example:
+    '400':
+      $ref: ../../components/responses/400.yaml
+    '404':
+      $ref: ../../components/responses/404.yaml
+    '500':
+      $ref: ../../components/responses/500.yaml

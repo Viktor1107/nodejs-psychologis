@@ -1,0 +1,63 @@
+patch:
+  summary: Update psychologist (partial)
+  tags:
+    - Psychologist
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^[0-9a-fA-F]{24}$'
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            name: { $ref: '#/components/schemas/Psychologist/properties/name' }
+            avatar_url:
+              {
+                $ref: '#/components/schemas/Psychologist/properties/avatar_url',
+              }
+            experience:
+              {
+                $ref: '#/components/schemas/Psychologist/properties/experience',
+              }
+            price_per_hour:
+              {
+                $ref: '#/components/schemas/Psychologist/properties/price_per_hour',
+              }
+            rating:
+              { $ref: '#/components/schemas/Psychologist/properties/rating' }
+            license:
+              { $ref: '#/components/schemas/Psychologist/properties/license' }
+            specialization:
+              {
+                $ref: '#/components/schemas/Psychologist/properties/specialization',
+              }
+            initial_consultation:
+              {
+                $ref: '#/components/schemas/Psychologist/properties/initial_consultation',
+              }
+            about:
+              { $ref: '#/components/schemas/Psychologist/properties/about' }
+        example:
+          price_per_hour: 1300
+          about: 'Updated bio: now also working with couples.'
+  responses:
+    '200':
+      description: Psychologist updated
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Psychologist'
+    '400':
+      description: Invalid data
+    '404':
+      description: Psychologist not found
+    '401':
+      description: Unauthorized

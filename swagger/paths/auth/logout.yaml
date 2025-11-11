@@ -1,0 +1,7 @@
+post:
+  summary: Logout
+  tags: [Auth]
+  security: [bearerAuth: []]
+  responses:
+    '204': { description: Logged out }
+    '401': { $ref: ../../components/responses/401.yaml }

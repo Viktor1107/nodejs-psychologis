@@ -1,0 +1,23 @@
+post:
+  summary: Upload avatar
+  tags: [Auth]
+  security: [bearerAuth: []]
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            avatar:
+              type: string
+              format: binary
+  responses:
+    '200':
+      description: Avatar uploaded
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              avatar_url: { type: string, format: uri }

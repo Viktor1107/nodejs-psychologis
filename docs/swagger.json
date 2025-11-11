@@ -1,0 +1,1234 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Psychologist App",
+    "version": "1.0.0",
+    "description": "Documentation for Psychologist application API",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development server"
+    },
+    {
+      "url": "https://psychologist-app.vercel.app",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Psychologist",
+      "description": "Operations with psychologists"
+    },
+    {
+      "name": "Auth",
+      "description": "Authentication and user management"
+    },
+    {
+      "name": "Favorite",
+      "description": "Favorite psychologists"
+    }
+  ],
+  "paths": {
+    "/psychologist": {
+      "get": {
+        "tags": "-Psychologist",
+        "summary": "Get all psychologists",
+        "get": {
+          "summary": "Get all psychologists",
+          "tags": [
+            "Psychologist"
+          ],
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number (pagination)",
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "default": 1
+              }
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "Number of items per page",
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 50,
+                "default": 10
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of psychologists",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Psychologist"
+                    }
+                  },
+                  "example": [
+                    {
+                      "_id": "507f1f77bcf86cd799439011",
+                      "name": "Iryna Sydorenko",
+                      "avatar_url": "https://res.cloudinary.com/demo/image/upload/p1.jpg",
+                      "experience": "8 years",
+                      "price_per_hour": 1200,
+                      "rating": 4.7,
+                      "license": "LP-2021-5678",
+                      "specialization": "CBT, Child Psychology",
+                      "about": "Experienced in anxiety and family therapy...",
+                      "reviews": [],
+                      "createdAt": "2025-04-01T10:30:00.000Z"
+                    }
+                  ]
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "post": {
+        "post": {
+          "summary": "Create a new psychologist",
+          "tags": [
+            "Psychologist"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "$ref": "#/components/schemas/Psychologist",
+                  "required": [
+                    "name",
+                    "avatar_url",
+                    "experience",
+                    "price_per_hour",
+                    "license",
+                    "specialization",
+                    "about"
+                  ],
+                  "properties": {
+                    "name": {
+                      "$ref": "#/components/schemas/Psychologist/properties/name"
+                    },
+                    "avatar_url": {
+                      "$ref": "#/components/schemas/Psychologist/properties/avatar_url"
+                    },
+                    "experience": {
+                      "$ref": "#/components/schemas/Psychologist/properties/experience"
+                    },
+                    "price_per_hour": {
+                      "$ref": "#/components/schemas/Psychologist/properties/price_per_hour"
+                    },
+                    "license": {
+                      "$ref": "#/components/schemas/Psychologist/properties/license"
+                    },
+                    "specialization": {
+                      "$ref": "#/components/schemas/Psychologist/properties/specialization"
+                    },
+                    "about": {
+                      "$ref": "#/components/schemas/Psychologist/properties/about"
+                    },
+                    "initial_consultation": {
+                      "$ref": "#/components/schemas/Psychologist/properties/initial_consultation"
+                    },
+                    "reviews": {
+                      "$ref": "#/components/schemas/Psychologist/properties/reviews"
+                    }
+                  }
+                },
+                "example": {
+                  "name": "Iryna Sydorenko",
+                  "avatar_url": "https://res.cloudinary.com/demo/image/upload/p1.jpg",
+                  "experience": "8 years",
+                  "price_per_hour": 1200,
+                  "license": "LP-2021-5678",
+                  "specialization": "CBT, Child Psychology",
+                  "about": "Experienced in anxiety and family therapy...",
+                  "initial_consultation": "30 min free",
+                  "reviews": []
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Psychologist created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Psychologist"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Validation error"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      }
+    },
+    "/psychologist/id": {
+      "get": {
+        "tags": [
+          "Psychologist"
+        ],
+        "summary": "Get psychologist by id",
+        "operationId": "getPsychologistById",
+        "description": "Get psychologist by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "65ca67e7ae7f10c88b598384"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found psychologist by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found psychologist with id 65ca67e7ae7f10c88b598384!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "Psychologist": {
+                          "$ref": "#/components/schemas/psychologist"
+                        },
+                        "Review": {
+                          "$ref": "#/components/schemas/review"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      },
+      "patch": {
+        "patch": {
+          "summary": "Update psychologist (partial)",
+          "tags": [
+            "Psychologist"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{24}$"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "$ref": "#/components/schemas/Psychologist/properties/name"
+                    },
+                    "avatar_url": {
+                      "$ref": "#/components/schemas/Psychologist/properties/avatar_url"
+                    },
+                    "experience": {
+                      "$ref": "#/components/schemas/Psychologist/properties/experience"
+                    },
+                    "price_per_hour": {
+                      "$ref": "#/components/schemas/Psychologist/properties/price_per_hour"
+                    },
+                    "rating": {
+                      "$ref": "#/components/schemas/Psychologist/properties/rating"
+                    },
+                    "license": {
+                      "$ref": "#/components/schemas/Psychologist/properties/license"
+                    },
+                    "specialization": {
+                      "$ref": "#/components/schemas/Psychologist/properties/specialization"
+                    },
+                    "initial_consultation": {
+                      "$ref": "#/components/schemas/Psychologist/properties/initial_consultation"
+                    },
+                    "about": {
+                      "$ref": "#/components/schemas/Psychologist/properties/about"
+                    }
+                  }
+                },
+                "example": {
+                  "price_per_hour": 1300,
+                  "about": "Updated bio: now also working with couples."
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Psychologist updated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Psychologist"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid data"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Psychologist not found"
+            }
+          }
+        }
+      },
+      "delete": {
+        "delete": {
+          "summary": "Delete psychologist by ID",
+          "tags": [
+            "Psychologist"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{24}$"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Psychologist deleted successfully"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Psychologist not found"
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Register new user",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/register"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User registered"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/userResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "409": {
+            "description": "Email already in use"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login user",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "refreshToken": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/userResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "Logout",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Logged out"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "summary": "Refresh tokens",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "refreshToken"
+                ],
+                "properties": {
+                  "refreshToken": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New tokens",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "refreshToken": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/request-reset-email": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": null,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/resetEmail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "type": "object",
+      "required": [
+        "token",
+        "password"
+      ],
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "abc123xyz"
+        },
+        "password": {
+          "type": "string",
+          "format": "password",
+          "minLength": 6
+        }
+      }
+    },
+    "/auth/avatar": {
+      "post": {
+        "post": {
+          "summary": "Upload avatar",
+          "tags": [
+            "Auth"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "avatar": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Avatar uploaded",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "avatar_url": {
+                        "type": "string",
+                        "format": "uri"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "delete": {
+          "summary": "Delete avatar",
+          "tags": [
+            "Auth"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Avatar deleted",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Avatar deleted"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favorites": {
+      "get": {
+        "summary": "Get favorite psychologists",
+        "tags": [
+          "Favorite"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of favorites",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/favorite"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favorites/Id": {
+      "post": {
+        "post": {
+          "summary": "Add psychologist to favorites",
+          "description": "Add psychologist to user's favorites list",
+          "tags": [
+            "Favorite"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "psychologistId",
+              "in": "path",
+              "required": true,
+              "description": "ID of the psychologist to add to favorites",
+              "schema": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{24}$"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Successfully added to favorites",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "../../components/schemas/favorite.yaml"
+                  }
+                }
+              }
+            },
+            "404": {
+              "$ref": "../../components/responses/404.yaml"
+            }
+          }
+        }
+      },
+      "delete": {
+        "delete": {
+          "summary": "Remove psychologist from favorites",
+          "description": "Remove psychologist from user's favorites list",
+          "tags": [
+            "Favorite"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "psychologistId",
+              "in": "path",
+              "required": true,
+              "description": "ID of the psychologist to remove from favorites",
+              "schema": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{24}$"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Successfully removed from favorites"
+            },
+            "404": {
+              "$ref": "../../swagger/components/responses/404.yaml"
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Psychologist": {
+        "$ref": "#/components/schemas/psychologist"
+      },
+      "Review": {
+        "$ref": "#/components/schemas/review"
+      },
+      "RegisterRequest": {
+        "$ref": "#/components/schemas/register"
+      },
+      "LoginRequest": {
+        "$ref": "#/components/schemas/login"
+      },
+      "ResetEmailRequest": {
+        "$ref": "#/components/schemas/resetEmail"
+      },
+      "ResetPasswordRequest": {
+        "$ref": "#/components/schemas/resetPassword"
+      },
+      "UserResponse": {
+        "$ref": "#/components/schemas/userResponse"
+      },
+      "FavoriteItem": {
+        "$ref": "#/components/schemas/favorite"
+      },
+      "review": {
+        "type": "object",
+        "required": [
+          "reviewer",
+          "rating"
+        ],
+        "properties": {
+          "reviewer": {
+            "type": "string",
+            "description": "Name or identifier of the person who left the review",
+            "example": "Elena K."
+          },
+          "rating": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 5,
+            "description": "Rating from 0 to 5",
+            "example": 4.5
+          },
+          "comment": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Review text (optional)",
+            "example": "Helped a lot with anxiety, highly recommend!"
+          }
+        }
+      },
+      "psychologist": {
+        "type": "object",
+        "required": [
+          "name",
+          "avatar_url",
+          "experience",
+          "price_per_hour",
+          "license",
+          "specialization",
+          "about"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Auto-generated psychologist ID (MongoDB ObjectId)",
+            "example": "507f1f77bcf86cd799439011",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Full name of the psychologist",
+            "example": "Iryna Sydorenko"
+          },
+          "avatar_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the psychologist's avatar",
+            "example": "https://res.cloudinary.com/demo/image/upload/psychologist1.jpg"
+          },
+          "experience": {
+            "type": "string",
+            "description": "Years of professional experience",
+            "example": "8 years"
+          },
+          "price_per_hour": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Consultation price per hour (in currency units)",
+            "example": 1200
+          },
+          "rating": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 5,
+            "description": "Average rating based on reviews",
+            "example": 4.7
+          },
+          "license": {
+            "type": "string",
+            "description": "License number or title",
+            "example": "LP-2021-5678"
+          },
+          "specialization": {
+            "type": "string",
+            "description": "Area of psychological specialization",
+            "example": "Cognitive Behavioral Therapy, Child Psychology"
+          },
+          "initial_consultation": {
+            "description": "Details about the initial consultation (e.g., free 30-min session)",
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "30 minutes free via video call"
+          },
+          "about": {
+            "type": "string",
+            "description": "Detailed bio: education, approach, methods, etc.",
+            "example": "Practicing psychologist since 2015. Specializing in anxiety disorders, trauma, and family therapy..."
+          },
+          "reviews": {
+            "type": "array",
+            "description": "List of client reviews",
+            "items": {
+              "$ref": "#/components/schemas/review"
+            }
+          },
+          "adminId": {
+            "type": "string",
+            "description": "ID of the admin who added this psychologist",
+            "example": "507f191e810c19729de860ea"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the record was created",
+            "example": "2025-04-01T10:30:00.000Z",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of the last update",
+            "example": "2025-04-05T14:20:00.000Z",
+            "readOnly": true
+          }
+        }
+      },
+      "register": {
+        "type": "object",
+        "required": [
+          "email",
+          "password",
+          "name"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "minLength": 6,
+            "example": "MyPass123!"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          }
+        }
+      },
+      "userResponse": {
+        "type": "object",
+        "required": [
+          "_id",
+          "name",
+          "email"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User ID (MongoDB ObjectId)",
+            "example": "65e0c0f5e86b1b2d7f1a6b21"
+          },
+          "name": {
+            "type": "string",
+            "description": "Full name of the user",
+            "example": "Viktor Tryukhan"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User email",
+            "example": "viktortryukhan11@gmail.com"
+          },
+          "avatar_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional avatar image URL",
+            "example": "https://res.cloudinary.com/demo/image/upload/avatar1.jpg"
+          }
+        }
+      },
+      "loginRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email address",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "description": "User's password",
+            "example": "12345678"
+          }
+        }
+      },
+      "resetEmail": {
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "favorite": {
+        "type": "object",
+        "properties": {
+          "psychologistId": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{24}$"
+          },
+          "psychologist": {
+            "$ref": "#/components/schemas/psychologist"
+          }
+        }
+      },
+      "login": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        }
+      },
+      "resetPassword": {
+        "type": "object",
+        "required": [
+          "token",
+          "password"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "abc123xyz"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "minLength": 6
+          }
+        }
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Bad Request — validation error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Validation error"
+                },
+                "errors": {
+                  "type": "string",
+                  "example": "Email is required, Password must be at least 6 characters"
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized - missing or invalid token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "Forbidden — insufficient permissions",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 403
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Forbidden"
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Not Found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "409": {
+        "description": "Conflict — resource already exists",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 409
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Email already in use"
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "$ref": "#/components/responses/400"
+      },
+      "Unauthorized": {
+        "$ref": "#/components/responses/401"
+      },
+      "Forbidden": {
+        "$ref": "#/components/responses/403"
+      },
+      "NotFound": {
+        "$ref": "#/components/responses/404"
+      },
+      "Conflict": {
+        "$ref": "#/components/responses/409"
+      },
+      "InternalError": {
+        "$ref": "#/components/responses/500"
+      }
+    }
+  }
+}

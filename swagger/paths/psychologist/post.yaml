@@ -1,0 +1,70 @@
+post:
+  summary: Create a new psychologist
+  tags:
+    - Psychologist
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          $ref: '#/components/schemas/Psychologist'
+          # Exclude read-only fields
+          required:
+            - name
+            - avatar_url
+            - experience
+            - price_per_hour
+            - license
+            - specialization
+            - about
+          properties:
+            name: { $ref: '#/components/schemas/Psychologist/properties/name' }
+            avatar_url:
+              {
+                $ref: '#/components/schemas/Psychologist/properties/avatar_url',
+              }
+            experience:
+              {
+                $ref: '#/components/schemas/Psychologist/properties/experience',
+              }
+            price_per_hour:
+              {
+                $ref: '#/components/schemas/Psychologist/properties/price_per_hour',
+              }
+            license:
+              { $ref: '#/components/schemas/Psychologist/properties/license' }
+            specialization:
+              {
+                $ref: '#/components/schemas/Psychologist/properties/specialization',
+              }
+            about:
+              { $ref: '#/components/schemas/Psychologist/properties/about' }
+            initial_consultation:
+              {
+                $ref: '#/components/schemas/Psychologist/properties/initial_consultation',
+              }
+            reviews:
+              { $ref: '#/components/schemas/Psychologist/properties/reviews' }
+        example:
+          name: 'Iryna Sydorenko'
+          avatar_url: 'https://res.cloudinary.com/demo/image/upload/p1.jpg'
+          experience: '8 years'
+          price_per_hour: 1200
+          license: 'LP-2021-5678'
+          specialization: 'CBT, Child Psychology'
+          about: 'Experienced in anxiety and family therapy...'
+          initial_consultation: '30 min free'
+          reviews: []
+  responses:
+    '201':
+      description: Psychologist created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Psychologist'
+    '400':
+      description: Validation error
+    '401':
+      description: Unauthorized

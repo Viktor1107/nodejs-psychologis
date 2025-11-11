@@ -1,25 +1,103 @@
 openapi: 3.1.0
 info:
+  title: Psychologist App
   version: 1.0.0
-  title: Psychologist app
+  description: Documentation for Psychologist application API
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description: This is a documentation of psychologist app
-tags:
-  - name: Psychologist
-    description: Operations about users.
-  - name: Auth
-    description: Auth operations.
+
 servers:
   - url: http://localhost:3000
+    description: Local development server
   - url: https://psychologist-app.vercel.app
+    description: Production server
+
+tags:
+  - name: Psychologist
+    description: Operations with psychologists
+  - name: Auth
+    description: Authentication and user management
+  - name: Favorite
+    description: Favorite psychologists
+
 paths:
-  /psychologist/{id}:
+  /psychologist:
     get:
-      $ref: ../swagger/paths/id/get.yaml
+      $ref: ../swagger/paths/psychologist/get.yaml
+    post:
+      $ref: ../swagger/paths/psychologist/post.yaml
+
+  /psychologist/id:
+    get:
+      $ref: ../swagger/paths/psychologist/id/get.yaml
+    patch:
+      $ref: ../swagger/paths/psychologist/id/patch.yaml
+    delete:
+      $ref: ../swagger/paths/psychologist/id/delete.yaml
+
+  /auth/register:
+    $ref: ../swagger/paths/auth/register.yaml
+  /auth/login:
+    $ref: ../swagger/paths/auth/login.yaml
+  /auth/logout:
+    $ref: ../swagger/paths/auth/logout.yaml
+  /auth/refresh:
+    $ref: ../swagger/paths/auth/refresh.yaml
+  /auth/request-reset-email:
+    $ref: ../swagger/paths/auth/requestReset.yaml
+  /auth/reset-password:
+    $ref: ../swagger/components/schemas/auth/resetPassword.yaml
+
+  /auth/avatar:
+    post:
+      $ref: ../swagger/paths/auth/avatarUpload.yaml
+    delete:
+      $ref: ../swagger/paths/auth/avatarDelete.yaml
+
+  /favorites:
+    $ref: ../swagger/paths/favorites/getAll.yaml
+  /favorites/Id:
+    post:
+      $ref: ../swagger/paths/favorites/post.yaml
+    delete:
+      $ref: ../swagger/paths/favorites/delete.yaml
+
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Psychologist:
+      $ref: ../swagger/components/schemas/psychologist.yaml
+    Review:
+      $ref: ../swagger/components/schemas/review.yaml
+    RegisterRequest:
+      $ref: ../swagger/components/schemas/auth/register.yaml
+    LoginRequest:
+      $ref: ../swagger/components/schemas/auth/login.yaml
+    ResetEmailRequest:
+      $ref: ../swagger/components/schemas/auth/resetEmail.yaml
+    ResetPasswordRequest:
+      $ref: ../swagger/components/schemas/auth/resetPassword.yaml
+    UserResponse:
+      $ref: ../swagger/components/schemas/auth/userResponse.yaml
+    FavoriteItem:
+      $ref: ../swagger/components/schemas/favorite.yaml
+
+  responses:
+    BadRequest:
+      $ref: ../swagger/components/responses/400.yaml
+    Unauthorized:
+      $ref: ../swagger/components/responses/401.yaml
+    Forbidden:
+      $ref: ../swagger/components/responses/403.yaml
+    NotFound:
+      $ref: ../swagger/components/responses/404.yaml
+    Conflict:
+      $ref: ../swagger/components/responses/409.yaml
+    InternalError:
+      $ref: ../swagger/components/responses/500.yaml

@@ -1,0 +1,22 @@
+post:
+  summary: Refresh tokens
+  tags: [Auth]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [refreshToken]
+          properties:
+            refreshToken: { type: string }
+  responses:
+    '200':
+      description: New tokens
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token: { type: string }
+              refreshToken: { type: string }

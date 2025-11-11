@@ -1,0 +1,78 @@
+type: object
+required:
+  - name
+  - avatar_url
+  - experience
+  - price_per_hour
+  - license
+  - specialization
+  - about
+properties:
+  _id:
+    type: string
+    description: 'Auto-generated psychologist ID (MongoDB ObjectId)'
+    example: '507f1f77bcf86cd799439011'
+    readOnly: true
+  name:
+    type: string
+    description: 'Full name of the psychologist'
+    example: 'Iryna Sydorenko'
+  avatar_url:
+    type: string
+    format: uri
+    description: "URL to the psychologist's avatar"
+    example: 'https://res.cloudinary.com/demo/image/upload/psychologist1.jpg'
+  experience:
+    type: string
+    description: 'Years of professional experience'
+    example: '8 years'
+  price_per_hour:
+    type: number
+    minimum: 0
+    description: 'Consultation price per hour (in currency units)'
+    example: 1200
+  rating:
+    type: number
+    minimum: 0
+    maximum: 5
+    description: 'Average rating based on reviews'
+    example: 4.7
+  license:
+    type: string
+    description: 'License number or title'
+    example: 'LP-2021-5678'
+  specialization:
+    type: string
+    description: 'Area of psychological specialization'
+    example: 'Cognitive Behavioral Therapy, Child Psychology'
+  initial_consultation:
+    description: 'Details about the initial consultation (e.g., free 30-min session)'
+    type:
+      - string
+      - 'null'
+    example: '30 minutes free via video call'
+  about:
+    type: string
+    description: 'Detailed bio: education, approach, methods, etc.'
+    example: 'Practicing psychologist since 2015. Specializing in anxiety disorders, trauma, and family therapy...'
+  reviews:
+    type: array
+    description: 'List of client reviews'
+    items:
+      $ref: './review.yaml'
+  adminId:
+    type: string
+    description: 'ID of the admin who added this psychologist'
+    example: '507f191e810c19729de860ea'
+  createdAt:
+    type: string
+    format: date-time
+    description: 'Timestamp when the record was created'
+    example: '2025-04-01T10:30:00.000Z'
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: 'Timestamp of the last update'
+    example: '2025-04-05T14:20:00.000Z'
+    readOnly: true

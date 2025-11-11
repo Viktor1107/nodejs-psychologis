@@ -1,0 +1,7 @@
+type: object
+properties:
+  psychologistId:
+    type: string
+    pattern: '^[0-9a-fA-F]{24}$'
+  psychologist:
+    $ref: psychologist.yaml

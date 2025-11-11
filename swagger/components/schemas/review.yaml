@@ -1,0 +1,21 @@
+type: object
+required:
+  - reviewer
+  - rating
+properties:
+  reviewer:
+    type: string
+    description: 'Name or identifier of the person who left the review'
+    example: 'Elena K.'
+  rating:
+    type: number
+    minimum: 0
+    maximum: 5
+    description: 'Rating from 0 to 5'
+    example: 4.5
+  comment:
+    type:
+      - string
+      - 'null'
+    description: 'Review text (optional)'
+    example: 'Helped a lot with anxiety, highly recommend!'

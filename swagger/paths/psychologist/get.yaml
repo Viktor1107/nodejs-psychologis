@@ -1,0 +1,45 @@
+tags: -Psychologist
+summary: Get all psychologists
+get:
+  summary: Get all psychologists
+  tags:
+    - Psychologist
+  parameters:
+    - name: page
+      in: query
+      description: Page number (pagination)
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    - name: limit
+      in: query
+      description: Number of items per page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 10
+  responses:
+    '200':
+      description: List of psychologists
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Psychologist'
+          example:
+            - _id: '507f1f77bcf86cd799439011'
+              name: 'Iryna Sydorenko'
+              avatar_url: 'https://res.cloudinary.com/demo/image/upload/p1.jpg'
+              experience: '8 years'
+              price_per_hour: 1200
+              rating: 4.7
+              license: 'LP-2021-5678'
+              specialization: 'CBT, Child Psychology'
+              about: 'Experienced in anxiety and family therapy...'
+              reviews: []
+              createdAt: '2025-04-01T10:30:00.000Z'
+    '500':
+      description: Internal server error

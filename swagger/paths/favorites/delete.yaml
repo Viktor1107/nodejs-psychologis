@@ -1,0 +1,20 @@
+delete:
+  summary: Remove psychologist from favorites
+  description: Remove psychologist from user's favorites list
+  tags:
+    - Favorite
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: psychologistId
+      in: path
+      required: true
+      description: ID of the psychologist to remove from favorites
+      schema:
+        type: string
+        pattern: '^[0-9a-fA-F]{24}$'
+  responses:
+    '204':
+      description: Successfully removed from favorites
+    '404':
+      $ref: ../../swagger/components/responses/404.yaml

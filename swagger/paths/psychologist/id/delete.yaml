@@ -1,0 +1,20 @@
+delete:
+  summary: Delete psychologist by ID
+  tags:
+    - Psychologist
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^[0-9a-fA-F]{24}$'
+  responses:
+    '204':
+      description: Psychologist deleted successfully
+    '404':
+      description: Psychologist not found
+    '401':
+      description: Unauthorized

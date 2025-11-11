@@ -1,0 +1,24 @@
+type: object
+required:
+  - _id
+  - name
+  - email
+properties:
+  _id:
+    type: string
+    description: User ID (MongoDB ObjectId)
+    example: '65e0c0f5e86b1b2d7f1a6b21'
+  name:
+    type: string
+    description: Full name of the user
+    example: 'Viktor Tryukhan'
+  email:
+    type: string
+    format: email
+    description: User email
+    example: 'viktortryukhan11@gmail.com'
+  avatar_url:
+    type: string
+    format: uri
+    description: Optional avatar image URL
+    example: 'https://res.cloudinary.com/demo/image/upload/avatar1.jpg'
