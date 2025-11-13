@@ -15,7 +15,7 @@
       "description": "Local development server for testing API endpoints on your machine."
     },
     {
-      "url": "https://psychologist-app.vercel.app",
+      "url": "https://nodejs-psychologis.onrender.com",
       "description": "Production server accessible globally for real user interactions and live testing."
     }
   ],
